@@ -1,0 +1,13 @@
+<div class="main-container" ng-controller="MainController as MainCtrl">
+  <fountain-header></fountain-header>
+  <div class="title">
+      <h2 class="title-h2">Please fill the inputs below to add data to the graph.</h2>
+      <h1 class="title-h1">Generated Graph</h1>
+      <div>
+          <canvas id="line" class="chart chart-line" chart-data="MainCtrl.data"
+          chart-labels="MainCtrl.labels" chart-series="MainCtrl.series" chart-options="MainCtrl.options"
+          chart-dataset-override="MainCtrl.datasetOverride" chart-click="MainCtrl.onClick">
+          </canvas
+      </div>
+    </div>
+</div>
