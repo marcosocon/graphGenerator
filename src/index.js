@@ -2,10 +2,28 @@ angular
   .module('app', ['ui.router', 'chart.js'])
   .controller('MainController', function () {
     var vm = this;
-    vm.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    vm.series = ['Series A', 'Series B'];
-    vm.data = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90]
-    ];
+    vm.data = [];
+    vm.labels = [];
+    vm.series = ['Series A'];
+    function buildRepeatData() {
+      vm.repeatData = vm.data.map(function (value, index) {
+        return {
+          value: value,
+          label: vm.labels[index],
+          index: index
+        };
+      });
+    }
+    vm.addValues = function (value, label) {
+      vm.data.push(value);
+      vm.labels.push(label);
+      vm.currentLabel = null;
+      vm.currentValue = null;
+      buildRepeatData();
+    };
+    vm.deleteValue = function (index) {
+      vm.labels.splice(index, 1);
+      vm.data.splice(index, 1);
+      buildRepeatData();
+    };
   });
