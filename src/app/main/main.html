@@ -1,55 +1,65 @@
 <div class="main-container">
   <div class="title col-xs-10 col-xs-offset-1">
     <h1 class="text-center">Generated Graph</h1>
-    <div>
+    <div ng-if="vm.data.length">
       <canvas id="line" class="chart chart-line" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series">
       </canvas </div>
-
-      <h2 class="text-center">Graph Data</h2>
-
-      <h4>Add series</h4>
-      <input type="text" name="label" placeholder="New Label" class="form-control" ng-model="vm.serieName" required/>
-      <button class="btn btn-primary" ng-click="vm.addSerie(vm.serieName)">Add Serie</button>
-      <h4>Add Labels (X values)</h4>
-      <input type="text" name="label" placeholder="New Label" class="form-control" ng-model="vm.currentLabel" required/>
-      <button class="btn btn-primary" ng-click="vm.addLabel(vm.currentLabel)">Add Label</button>
-      <div ng-if="vm.series.length">
-        <div class="row">
-          <div class="col-md-4 col-xs-6">
-            <h4 class="text-center">Add Values</h4>
-            <div class="row text-center">
-              <form name="valuesForm">
-                <select ng-model="vm.selectedSerie">
-                  <option ng-repeat="serie in vm.series" value="{{$index}}">{{serie}}</option>
-                </select>
-                <input type="text" ng-pattern="/^[0-9]+$/" name="value" placeholder="New Value" class="form-control" ng-model="vm.currentValue"
-                  required/>
-                <div ng-show="valuesForm.value.$error.pattern" class="alert alert-danger" role="alert">
-                  <strong>Error!</strong> Value has to be an integer.
-                </div>
-                <button class="btn btn-primary" ng-disabled="valuesForm.$invalid" ng-click="vm.addValueToSerie(vm.currentValue, vm.selectedSerie)">Add Values</button>
-              </form>
+    </div>
+    <div ng-if="!vm.data.length" class="col-xs-6 col-xs-offset-3 text-center">
+      <h4>Please enter some data to see the graph</h4>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+        <h2 class="text-center">Graph Data</h2>
+        <h4>Add series</h4>
+        <input type="text" name="label" placeholder="New Label" class="form-control" ng-model="vm.serieName" required/>
+        <button class="btn btn-primary" ng-click="vm.addSerie(vm.serieName)">Add Serie</button>
+        <h4>Add Labels (X values)</h4>
+        <input type="text" name="label" placeholder="New Label" class="form-control" ng-model="vm.currentLabel" required/>
+        <button class="btn btn-primary" ng-click="vm.addLabel(vm.currentLabel)">Add Label</button>
+      </div>
+    </div>
+    <div class="row" ng-if="vm.series.length">
+      <div class="col-xs-6 col-xs-offset-3">
+        <h4 class="text-center">Add Values</h4>
+        <div class="row text-center">
+          <form name="valuesForm">
+            <select ng-model="vm.selectedSerie">
+              <option ng-repeat="serie in vm.series" value="{{$index}}">{{serie}}</option>
+            </select>
+            <input type="text" ng-pattern="/^[0-9]+$/" name="value" placeholder="New Value" class="form-control" ng-model="vm.currentValue" required/>
+            <div ng-show="valuesForm.value.$error.pattern" class="alert alert-danger" role="alert">
+              <strong>Error!</strong> Value has to be an integer.
             </div>
-            <div>
-              <h4>Edit Values</h4>
-              <table class="table">
-                <tr>
-                  <th>Serie</th>
-                  <th>Value</th>
-                  <th></th>
-                  <th></th>
-
-                </tr>
-                <tr ng-repeat="data in vm.repeatData">
-                  {{data}}
-                  <td>{{data.serieIndex}}</td>
-                  <td>{{data.value}}</td>
-                  <td ng-click="vm.deleteValue(data.arrayIndex, data.serieIndex)"><i class="fa fa-trash"></i></td>
-                  <td ng-click="vm.editValue(data.index)"><i class="fa fa-pencil"></i></td>
-                </tr>
-              </table>
+            <button class="btn btn-primary" ng-disabled="valuesForm.$invalid" ng-click="vm.addValueToSerie(vm.currentValue, vm.selectedSerie)">Add Values</button>
+          </form>
+        </div>
+        <div ng-if="vm.editing" class="row text-center">
+          <h4 class="text-center">Edit Value</h4>
+          <form name="editForm">
+            <input type="text" ng-pattern="/^[0-9]+$/" name="value" placeholder="New Value" class="form-control" ng-model="vm.editingValue" required/>
+            <div ng-show="editForm.value.$error.pattern" class="alert alert-danger" role="alert">
+              <strong>Error!</strong> Value has to be an integer.
             </div>
-          </div>
+            <button class="btn btn-primary" ng-disabled="editForm.$invalid" ng-click="vm.editValue(vm.editingValue)">Save</button>
+          </form>
+        </div>
+        <div>
+          <h4>Edit Values</h4>
+          <table class="table">
+            <tr>
+              <th>Serie</th>
+              <th>Value</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr ng-repeat="data in vm.repeatData">
+              <td>{{data.serieName}}</td>
+              <td>{{data.value}}</td>
+              <td ng-click="vm.deleteValue(data.arrayIndex, data.serieIndex)"><i class="fa fa-trash"></i></td>
+              <td ng-click="vm.toggleEdit(data.arrayIndex, data.serieIndex, data.value)"><i class="fa fa-pencil"></i></td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

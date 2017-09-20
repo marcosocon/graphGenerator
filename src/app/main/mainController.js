@@ -2,6 +2,7 @@ angular
   .module('app')
   .controller('MainController', function () {
     var vm = this;
+    vm.editing = false;
     vm.data = [];
     vm.labels = [];
     vm.series = [];
@@ -11,10 +12,10 @@ angular
       vm.data.forEach(function (value, index) {
         if (angular.isArray(value)) {
           value.forEach(function (val, i) {
-            vm.repeatData.push({value: val, arrayIndex: i, serieIndex: index});
+            vm.repeatData.push({value: val, arrayIndex: i, serieName: vm.series[index]});
           });
         } else {
-          vm.repeatData.push({value: value, arrayIndex: index, serieIndex: null});
+          vm.repeatData.push({value: value, arrayIndex: index, serieName: null});
         }
       });
     }
@@ -42,6 +43,23 @@ angular
       } else {
         vm.data.splice(arrayIndex, 1);
       }
+      buildRepeatData();
+    };
+
+    vm.toggleEdit = function (arrayIndex, serieIndex, oldValue) {
+      vm.editing = true;
+      vm.editingValue = oldValue;
+      vm.editingIndex = arrayIndex;
+      vm.editingSerie = serieIndex;
+    };
+
+    vm.editValue = function (newValue) {
+      if (vm.editingSerie !== null) {
+        vm.data[vm.editingSerie].splice(vm.editingIndex, 1, newValue);
+      } else {
+        vm.data.splice(vm.editingIndex, 1, newValue);
+      }
+      vm.editing = false;
       buildRepeatData();
     };
   });
