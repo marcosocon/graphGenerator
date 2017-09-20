@@ -12,10 +12,10 @@ angular
       vm.data.forEach(function (value, index) {
         if (angular.isArray(value)) {
           value.forEach(function (val, i) {
-            vm.repeatData.push({value: val, arrayIndex: i, serieName: vm.series[index]});
+            vm.repeatData.push({value: val, arrayIndex: i, serieIndex: index, serieName: vm.series[index]});
           });
         } else {
-          vm.repeatData.push({value: value, arrayIndex: index, serieName: null});
+          vm.repeatData.push({value: value, arrayIndex: index, serieIndex: null, serieName: null});
         }
       });
     }
@@ -50,7 +50,7 @@ angular
       vm.editing = true;
       vm.editingValue = oldValue;
       vm.editingIndex = arrayIndex;
-      vm.editingSerie = serieIndex;
+      vm.editingSerie = serieIndex === null ? null : serieIndex;
     };
 
     vm.editValue = function (newValue) {
