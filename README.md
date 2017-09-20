@@ -1,5 +1,7 @@
 # graphGenerator
 
-** To run
+### To run
+
+`npm install`
 
 `gulp serve`
